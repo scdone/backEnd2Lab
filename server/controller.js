@@ -1,3 +1,4 @@
+const e = require("express");
 const houses = require(`./db.json`);
 let newHouseId = 4;
 
@@ -30,6 +31,21 @@ module.exports = {
 
     },
     updateHouse: (req, res) => {
+        const targetId = +req.params.id;
+        const type = req.body.type;
+        // const currentPrice = req.body.price;
+
+        const foundIndex = houses.findIndex(houseObj => {
+           return houseObj.id === targetId
+        });
+
+        if (type === `minus`) {
+            houses[foundIndex].price -= 10000
+        } else if (type === 'plus') {
+            houses[foundIndex].price += 10000
+        }
+
+        res.status(200).send(houses)
 
     }
 }
